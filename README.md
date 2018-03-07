@@ -4,6 +4,11 @@ A web service for ingesting and serving [internet drum patterns][1].
 
 This web API is an implementation of the [Internet Drum Pattern Queue Service Specification][2].
 
+## Build status
+
+[![Build Status](https://travis-ci.org/internetofdrums/internet-drum-pattern-queue-service.svg?branch=master)](https://travis-ci.org/internetofdrums/internet-drum-pattern-queue-service)
+[![codecov](https://codecov.io/gh/internetofdrums/internet-drum-pattern-queue-service/branch/master/graph/badge.svg)](https://codecov.io/gh/internetofdrums/internet-drum-pattern-queue-service)
+
 ## Documentation website
 
 You can [view the API documentation online][3].
