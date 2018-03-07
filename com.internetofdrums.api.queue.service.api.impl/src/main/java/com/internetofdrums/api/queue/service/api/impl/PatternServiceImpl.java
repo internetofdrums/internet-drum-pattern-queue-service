@@ -4,6 +4,8 @@ import com.internetofdrums.api.queue.service.api.DetailedDrumPattern;
 import com.internetofdrums.api.queue.service.api.ListedDrumPattern;
 import com.internetofdrums.api.queue.service.api.NewDrumPattern;
 import com.internetofdrums.api.queue.service.api.PatternService;
+import com.internetofdrums.api.queue.service.api.impl.entity.DetailedDrumPatternEntity;
+import com.internetofdrums.api.queue.service.api.impl.entity.ListedDrumPatternEntity;
 
 import java.util.Arrays;
 import java.util.List;
