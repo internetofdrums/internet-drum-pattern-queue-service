@@ -50,8 +50,6 @@ The web service should then be running at
 
 You can then use the service [as defined in the specification][3].
 
-### Requirements
-
 [1]: https://github.com/internetofdrums/internet-drum-pattern-spec
 [2]: https://github.com/internetofdrums/internet-drum-pattern-queue-service-spec
 [3]: https://internetofdrums.github.io/internet-drum-pattern-queue-service-spec/
