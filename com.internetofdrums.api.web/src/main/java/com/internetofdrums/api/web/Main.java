@@ -11,11 +11,11 @@ public class Main {
         HealthService healthService = ServiceLoader
                 .load(HealthService.class)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Cannot load health service."));
+                .orElseThrow(() -> new IllegalStateException("Could not load health service."));
         PatternService patternService = ServiceLoader
                 .load(PatternService.class)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Cannot load pattern service."));
+                .orElseThrow(() -> new IllegalStateException("Could not load pattern service."));
 
         WebService.start(8080, healthService, patternService);
     }

@@ -2,6 +2,7 @@ package com.internetofdrums.api.web;
 
 import com.internetofdrums.api.queue.service.api.HealthService;
 import com.internetofdrums.api.queue.service.api.PatternService;
+import com.internetofdrums.api.web.handler.FailureHandler;
 import com.internetofdrums.api.web.handler.GetAndRemoveHeadOfQueueHandler;
 import com.internetofdrums.api.web.handler.GetHeadOfQueueHandler;
 import com.internetofdrums.api.web.handler.GetHealthHandler;
@@ -22,8 +23,12 @@ public class WebService {
     }
 
     public static void start(int port, HealthService healthService, PatternService patternService) {
-        // @todo Catch exception and return error object
+        configureRouting(healthService, patternService);
+        configureFailureHandling();
+        startServer(port);
+    }
 
+    private static void configureRouting(HealthService healthService, PatternService patternService) {
         subRouter
                 .route()
                 .handler(BodyHandler.create());
@@ -47,7 +52,16 @@ public class WebService {
         subRouter
                 .delete(PatternService.GET_AND_REMOVE_HEAD_OF_QUEUE_PATH)
                 .handler(GetAndRemoveHeadOfQueueHandler.forService(patternService));
+    }
 
+    private static void configureFailureHandling() {
+        router
+                .route()
+                .last()
+                .handler(new FailureHandler());
+    }
+
+    private static void startServer(int port) {
         vertx
                 .createHttpServer()
                 .requestHandler(router.mountSubRouter(API_VERSION, subRouter)::accept)
