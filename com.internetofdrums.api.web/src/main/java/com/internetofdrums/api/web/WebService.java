@@ -8,6 +8,7 @@ import com.internetofdrums.api.web.handler.GetHeadOfQueueHandler;
 import com.internetofdrums.api.web.handler.GetHealthHandler;
 import com.internetofdrums.api.web.handler.ListQueueHandler;
 import com.internetofdrums.api.web.handler.OfferToQueueHandler;
+import com.internetofdrums.api.web.handler.ResourceNotFoundHandler;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
@@ -24,6 +25,7 @@ public class WebService {
 
     public static void start(int port, HealthService healthService, PatternService patternService) {
         configureRouting(healthService, patternService);
+        configureResourceNotFoundHandling();
         configureFailureHandling();
         startServer(port);
     }
@@ -54,11 +56,17 @@ public class WebService {
                 .handler(GetAndRemoveHeadOfQueueHandler.forService(patternService));
     }
 
-    private static void configureFailureHandling() {
+    private static void configureResourceNotFoundHandling() {
         router
                 .route()
                 .last()
-                .handler(new FailureHandler());
+                .handler(new ResourceNotFoundHandler());
+    }
+
+    private static void configureFailureHandling() {
+        router
+                .route()
+                .failureHandler(new FailureHandler());
     }
 
     private static void startServer(int port) {
