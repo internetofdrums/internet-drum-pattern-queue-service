@@ -1,4 +1,4 @@
-package com.internetofdrums.api.queue.service.api.impl;
+package com.internetofdrums.api.queue.service.api.impl.entity;
 
 import com.internetofdrums.api.queue.service.api.DetailedDrumPattern;
 import com.internetofdrums.api.queue.service.api.NewDrumPattern;

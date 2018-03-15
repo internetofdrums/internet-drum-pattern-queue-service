@@ -1,4 +1,4 @@
-package com.internetofdrums.api.queue.service.api.impl;
+package com.internetofdrums.api.queue.service.api.impl.entity;
 
 import com.internetofdrums.api.queue.service.api.DetailedDrumPattern;
 import com.internetofdrums.api.queue.service.api.ListedDrumPattern;
@@ -15,7 +15,7 @@ public class ListedDrumPatternEntity implements ListedDrumPattern {
         this.name = detailedDrumPattern.getName();
     }
 
-    static ListedDrumPatternEntity valueOf(DetailedDrumPattern detailedDrumPattern) {
+    public static ListedDrumPatternEntity valueOf(DetailedDrumPattern detailedDrumPattern) {
         return new ListedDrumPatternEntity(detailedDrumPattern);
     }
 

@@ -1,0 +1,8 @@
+language: java
+sudo: required
+jdk:
+  - oraclejdk9
+install:
+  - mvn verify
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
