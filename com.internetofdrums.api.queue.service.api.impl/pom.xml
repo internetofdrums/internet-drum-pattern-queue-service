@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>com.internetofdrums.api</groupId>
-            <artifactId>queue.service.api</artifactId>
+            <artifactId>com.internetofdrums.api.queue.service.api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
