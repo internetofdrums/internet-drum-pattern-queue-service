@@ -63,15 +63,6 @@
                     </arguments>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <artifactId>maven-jlink-plugin</artifactId>
-                <version>3.0.0-alpha-1</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <!-- configuration elements goes here -->
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 </project>
