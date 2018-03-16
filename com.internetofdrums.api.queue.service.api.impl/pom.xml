@@ -6,18 +6,18 @@
 
     <parent>
         <groupId>com.internetofdrums.api</groupId>
-        <artifactId>com.internetofdrums.api</artifactId>
+        <artifactId>parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>com.internetofdrums.api.queue.service.api.impl</artifactId>
+    <artifactId>queue.service.api.impl</artifactId>
 
     <name>Internet Drum Pattern Queue Service API - API Implementation</name>
 
     <dependencies>
         <dependency>
             <groupId>com.internetofdrums.api</groupId>
-            <artifactId>com.internetofdrums.api.queue.service.api</artifactId>
+            <artifactId>queue.service.api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
