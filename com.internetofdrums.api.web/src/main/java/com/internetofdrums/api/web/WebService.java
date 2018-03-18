@@ -12,6 +12,10 @@ import com.internetofdrums.api.web.handler.ResourceNotFoundHandler;
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.ext.web.handler.CorsHandler;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class WebService {
 
@@ -24,10 +28,25 @@ public class WebService {
     }
 
     public static void start(int port, HealthService healthService, PatternService patternService) {
+        configureCrossOriginResourceSharing();
         configureRouting(healthService, patternService);
         configureResourceNotFoundHandling();
         configureFailureHandling();
         startServer(port);
+    }
+
+    private static void configureCrossOriginResourceSharing() {
+        Set<String> allowedHeaders = new HashSet<>();
+        allowedHeaders.add("x-requested-with");
+        allowedHeaders.add("Access-Control-Allow-Origin");
+        allowedHeaders.add("origin");
+        allowedHeaders.add("Content-Type");
+        allowedHeaders.add("accept");
+
+        router
+                .route()
+                .handler(CorsHandler.create("*")
+                .allowedHeaders(allowedHeaders));
     }
 
     private static void configureRouting(HealthService healthService, PatternService patternService) {
