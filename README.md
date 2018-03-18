@@ -8,6 +8,7 @@ This web API is an implementation of the [Internet Drum Pattern Queue Service Sp
 
 [![Build Status](https://travis-ci.org/internetofdrums/internet-drum-pattern-queue-service.svg?branch=master)](https://travis-ci.org/internetofdrums/internet-drum-pattern-queue-service)
 [![codecov](https://codecov.io/gh/internetofdrums/internet-drum-pattern-queue-service/branch/master/graph/badge.svg)](https://codecov.io/gh/internetofdrums/internet-drum-pattern-queue-service)
+[![Docker Pulls](https://img.shields.io/docker/pulls/internetofdrums/internet-drum-pattern-queue-service.svg)](https://hub.docker.com/r/internetofdrums/internet-drum-pattern-queue-service/)
 
 ## Documentation website
 
