@@ -2,7 +2,13 @@ language: java
 sudo: required
 jdk:
   - oraclejdk9
+services:
+  - docker
+before_install:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 install:
   - mvn verify
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - docker build -t internetofdrums/internet-drum-pattern-queue-service .
+  - docker push pietvandongen/internet-drum-pattern-queue-service
