@@ -5,7 +5,7 @@ jdk:
 services:
   - docker
 before_install:
-  - echo '$DOCKER_PASSWORD' | docker login --username $DOCKER_USERNAME --password-stdin
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 install:
   - mvn verify
 after_success:
