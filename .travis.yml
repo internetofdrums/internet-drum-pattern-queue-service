@@ -11,4 +11,4 @@ install:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - docker build -t internetofdrums/internet-drum-pattern-queue-service .
-  - docker push pietvandongen/internet-drum-pattern-queue-service
+  - docker push internetofdrums/internet-drum-pattern-queue-service
