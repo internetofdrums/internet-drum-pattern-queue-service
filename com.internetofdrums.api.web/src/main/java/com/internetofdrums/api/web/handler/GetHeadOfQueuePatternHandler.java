@@ -1,8 +1,6 @@
 package com.internetofdrums.api.web.handler;
 
-import com.internetofdrums.api.queue.service.api.DetailedDrumPattern;
 import com.internetofdrums.api.queue.service.api.PatternService;
-import com.internetofdrums.api.web.view.DetailedDrumPatternView;
 import com.internetofdrums.api.web.view.ErrorView;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
@@ -10,13 +8,13 @@ import io.vertx.ext.web.RoutingContext;
 
 import java.util.Optional;
 
-public class GetAndRemoveHeadOfQueueHandler extends HandlerForService<PatternService> {
+public class GetHeadOfQueuePatternHandler extends HandlerForService<PatternService> {
 
-    public static GetAndRemoveHeadOfQueueHandler forService(PatternService service) {
-        return new GetAndRemoveHeadOfQueueHandler(service);
+    public static GetHeadOfQueuePatternHandler forService(PatternService service) {
+        return new GetHeadOfQueuePatternHandler(service);
     }
 
-    private GetAndRemoveHeadOfQueueHandler(PatternService service) {
+    private GetHeadOfQueuePatternHandler(PatternService service) {
         super(service);
     }
 
@@ -24,9 +22,9 @@ public class GetAndRemoveHeadOfQueueHandler extends HandlerForService<PatternSer
     public void handle(RoutingContext routingContext) {
         HttpServerResponse response = routingContext.response();
 
-        Optional<DetailedDrumPattern> detailedDrumPattern = service.getAndRemoveHeadOfQueue();
+        Optional<String> headOfQueuePattern = service.getHeadOfQueuePattern();
 
-        if (!detailedDrumPattern.isPresent()) {
+        if (!headOfQueuePattern.isPresent()) {
             response
                     .setStatusCode(404)
                     .putHeader("content-type", "application/json; charset=utf-8")
@@ -37,7 +35,7 @@ public class GetAndRemoveHeadOfQueueHandler extends HandlerForService<PatternSer
 
         response
                 .setStatusCode(200)
-                .putHeader("content-type", "application/json; charset=utf-8")
-                .end(Json.encode(new DetailedDrumPatternView(detailedDrumPattern.get())));
+                .putHeader("content-type", "text/plain")
+                .end(headOfQueuePattern.get());
     }
 }

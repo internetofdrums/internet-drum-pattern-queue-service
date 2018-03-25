@@ -29,6 +29,7 @@ public class OfferToQueueHandler extends HandlerForService<PatternService> {
         } catch (DecodeException e) {
             response
                     .setStatusCode(400)
+                    .putHeader("content-type", "application/json; charset=utf-8")
                     .end(Json.encode(new ErrorView("The pattern could not be correctly parsed.")));
 
             return;
@@ -41,6 +42,7 @@ public class OfferToQueueHandler extends HandlerForService<PatternService> {
         if (!succeeded) {
             response
                     .setStatusCode(202)
+                    .putHeader("content-type", "application/json; charset=utf-8")
                     .end(Json.encode(new ErrorView("The pattern could not be added to the queue, because the queue is currently full.")));
 
             return;

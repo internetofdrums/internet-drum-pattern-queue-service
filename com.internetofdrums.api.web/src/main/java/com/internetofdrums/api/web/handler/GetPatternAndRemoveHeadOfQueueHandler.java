@@ -10,13 +10,13 @@ import io.vertx.ext.web.RoutingContext;
 
 import java.util.Optional;
 
-public class GetAndRemoveHeadOfQueueHandler extends HandlerForService<PatternService> {
+public class GetPatternAndRemoveHeadOfQueueHandler extends HandlerForService<PatternService> {
 
-    public static GetAndRemoveHeadOfQueueHandler forService(PatternService service) {
-        return new GetAndRemoveHeadOfQueueHandler(service);
+    public static GetPatternAndRemoveHeadOfQueueHandler forService(PatternService service) {
+        return new GetPatternAndRemoveHeadOfQueueHandler(service);
     }
 
-    private GetAndRemoveHeadOfQueueHandler(PatternService service) {
+    private GetPatternAndRemoveHeadOfQueueHandler(PatternService service) {
         super(service);
     }
 
@@ -24,9 +24,9 @@ public class GetAndRemoveHeadOfQueueHandler extends HandlerForService<PatternSer
     public void handle(RoutingContext routingContext) {
         HttpServerResponse response = routingContext.response();
 
-        Optional<DetailedDrumPattern> detailedDrumPattern = service.getAndRemoveHeadOfQueue();
+        Optional<String> headOfQueuePattern = service.getPatternAndRemoveHeadOfQueue();
 
-        if (!detailedDrumPattern.isPresent()) {
+        if (!headOfQueuePattern.isPresent()) {
             response
                     .setStatusCode(404)
                     .putHeader("content-type", "application/json; charset=utf-8")
@@ -37,7 +37,7 @@ public class GetAndRemoveHeadOfQueueHandler extends HandlerForService<PatternSer
 
         response
                 .setStatusCode(200)
-                .putHeader("content-type", "application/json; charset=utf-8")
-                .end(Json.encode(new DetailedDrumPatternView(detailedDrumPattern.get())));
+                .putHeader("content-type", "text/plain")
+                .end(Json.encode(headOfQueuePattern.get()));
     }
 }

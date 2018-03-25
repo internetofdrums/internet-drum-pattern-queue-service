@@ -14,6 +14,7 @@ public class FailureHandler implements Handler<RoutingContext> {
 
         response
                 .setStatusCode(500)
+                .putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encode(new ErrorView("An internal server error occured.")));
     }
 }

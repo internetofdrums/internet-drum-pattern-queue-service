@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class PatternServiceImpl implements PatternService {
 
-    private static final int MAXIMUM_NUMBER_OF_PATTERNS_IN_QUEUE = 5;
+    private static final int MAXIMUM_NUMBER_OF_PATTERNS_IN_QUEUE = 100;
 
     private final BlockingQueue<DetailedDrumPatternEntity> queue = new ArrayBlockingQueue<>(MAXIMUM_NUMBER_OF_PATTERNS_IN_QUEUE);
 
@@ -40,7 +40,29 @@ public class PatternServiceImpl implements PatternService {
     }
 
     @Override
+    public Optional<String> getHeadOfQueuePattern() {
+        DetailedDrumPatternEntity head = queue.peek();
+
+        if (head == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(head.getPattern());
+    }
+
+    @Override
     public Optional<DetailedDrumPattern> getAndRemoveHeadOfQueue() {
         return Optional.ofNullable(queue.poll());
+    }
+
+    @Override
+    public Optional<String> getPatternAndRemoveHeadOfQueue() {
+        DetailedDrumPatternEntity head = queue.poll();
+
+        if (head == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(head.getPattern());
     }
 }

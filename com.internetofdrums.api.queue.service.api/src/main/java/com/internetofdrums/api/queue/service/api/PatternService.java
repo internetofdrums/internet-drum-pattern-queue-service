@@ -13,7 +13,9 @@ public interface PatternService extends Service {
 
     String HEAD_OF_QUEUE_PATH = "/head";
     String GET_HEAD_OF_QUEUE_PATH = BASE_PATH + HEAD_OF_QUEUE_PATH;
+    String GET_HEAD_OF_QUEUE_PATTERN_PATH = BASE_PATH + HEAD_OF_QUEUE_PATH + "/pattern";
     String GET_AND_REMOVE_HEAD_OF_QUEUE_PATH = BASE_PATH + HEAD_OF_QUEUE_PATH;
+    String GET_PATTERN_AND_REMOVE_HEAD_OF_QUEUE_PATH = GET_HEAD_OF_QUEUE_PATTERN_PATH;
 
     List<ListedDrumPattern> listQueue();
 
@@ -21,5 +23,9 @@ public interface PatternService extends Service {
 
     Optional<DetailedDrumPattern> getHeadOfQueue();
 
+    Optional<String> getHeadOfQueuePattern();
+
     Optional<DetailedDrumPattern> getAndRemoveHeadOfQueue();
+
+    Optional<String> getPatternAndRemoveHeadOfQueue();
 }

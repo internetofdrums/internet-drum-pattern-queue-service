@@ -14,6 +14,7 @@ public class ResourceNotFoundHandler implements Handler<RoutingContext> {
 
         response
                 .setStatusCode(404)
+                .putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encode(new ErrorView("The resource could not be found.")));
     }
 }

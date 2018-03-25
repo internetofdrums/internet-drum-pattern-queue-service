@@ -5,7 +5,9 @@ import com.internetofdrums.api.queue.service.api.PatternService;
 import com.internetofdrums.api.web.handler.FailureHandler;
 import com.internetofdrums.api.web.handler.GetAndRemoveHeadOfQueueHandler;
 import com.internetofdrums.api.web.handler.GetHeadOfQueueHandler;
+import com.internetofdrums.api.web.handler.GetHeadOfQueuePatternHandler;
 import com.internetofdrums.api.web.handler.GetHealthHandler;
+import com.internetofdrums.api.web.handler.GetPatternAndRemoveHeadOfQueueHandler;
 import com.internetofdrums.api.web.handler.ListQueueHandler;
 import com.internetofdrums.api.web.handler.OfferToQueueHandler;
 import com.internetofdrums.api.web.handler.ResourceNotFoundHandler;
@@ -46,7 +48,7 @@ public class WebService {
         router
                 .route()
                 .handler(CorsHandler.create("*")
-                .allowedHeaders(allowedHeaders));
+                        .allowedHeaders(allowedHeaders));
     }
 
     private static void configureRouting(HealthService healthService, PatternService patternService) {
@@ -71,8 +73,16 @@ public class WebService {
                 .handler(GetHeadOfQueueHandler.forService(patternService));
 
         subRouter
+                .get(PatternService.GET_HEAD_OF_QUEUE_PATTERN_PATH)
+                .handler(GetHeadOfQueuePatternHandler.forService(patternService));
+
+        subRouter
                 .delete(PatternService.GET_AND_REMOVE_HEAD_OF_QUEUE_PATH)
                 .handler(GetAndRemoveHeadOfQueueHandler.forService(patternService));
+
+        subRouter
+                .delete(PatternService.GET_PATTERN_AND_REMOVE_HEAD_OF_QUEUE_PATH)
+                .handler(GetPatternAndRemoveHeadOfQueueHandler.forService(patternService));
     }
 
     private static void configureResourceNotFoundHandling() {

@@ -29,6 +29,7 @@ public class GetHeadOfQueueHandler extends HandlerForService<PatternService> {
         if (!detailedDrumPattern.isPresent()) {
             response
                     .setStatusCode(404)
+                    .putHeader("content-type", "application/json; charset=utf-8")
                     .end(Json.encode(new ErrorView("The queue is currently empty.")));
 
             return;
@@ -36,6 +37,7 @@ public class GetHeadOfQueueHandler extends HandlerForService<PatternService> {
 
         response
                 .setStatusCode(200)
+                .putHeader("content-type", "application/json; charset=utf-8")
                 .end(Json.encode(new DetailedDrumPatternView(detailedDrumPattern.get())));
     }
 }
