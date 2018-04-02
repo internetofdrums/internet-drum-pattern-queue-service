@@ -38,6 +38,6 @@ public class GetPatternAndRemoveHeadOfQueueHandler extends HandlerForService<Pat
         response
                 .setStatusCode(200)
                 .putHeader("content-type", "text/plain")
-                .end(Json.encode(headOfQueuePattern.get()));
+                .end(headOfQueuePattern.get());
     }
 }
