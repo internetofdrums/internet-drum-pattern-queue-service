@@ -2,6 +2,7 @@ package com.internetofdrums.api.web.handler;
 
 import com.internetofdrums.api.queue.service.api.NewDrumPattern;
 import com.internetofdrums.api.queue.service.api.PatternService;
+import com.internetofdrums.api.queue.service.api.QueueException;
 import com.internetofdrums.api.web.view.ErrorView;
 import com.internetofdrums.api.web.view.NewDrumPatternView;
 import io.vertx.core.http.HttpServerResponse;
@@ -35,9 +36,18 @@ public class OfferToQueueHandler extends HandlerForService<PatternService> {
             return;
         }
 
-        boolean succeeded = service.offerToQueue(newDrumPattern);
+        boolean succeeded;
 
-        // @todo Catch 422: The pattern is already in the queue.
+        try {
+            succeeded = service.offerToQueue(newDrumPattern);
+        } catch (QueueException e) {
+            response
+                    .setStatusCode(422)
+                    .putHeader("content-type", "application/json; charset=utf-8")
+                    .end(Json.encode(new ErrorView("The pattern is already present in the queue.")));
+
+            return;
+        }
 
         if (!succeeded) {
             response

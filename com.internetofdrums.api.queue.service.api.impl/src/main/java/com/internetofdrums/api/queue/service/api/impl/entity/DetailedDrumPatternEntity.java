@@ -3,6 +3,7 @@ package com.internetofdrums.api.queue.service.api.impl.entity;
 import com.internetofdrums.api.queue.service.api.DetailedDrumPattern;
 import com.internetofdrums.api.queue.service.api.NewDrumPattern;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class DetailedDrumPatternEntity implements DetailedDrumPattern {
@@ -50,5 +51,24 @@ public class DetailedDrumPatternEntity implements DetailedDrumPattern {
     @Override
     public String getPattern() {
         return pattern;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+
+        DetailedDrumPatternEntity that = (DetailedDrumPatternEntity) other;
+
+        return Objects.equals(name, that.name) &&
+                Objects.equals(pattern, that.pattern);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, pattern);
     }
 }

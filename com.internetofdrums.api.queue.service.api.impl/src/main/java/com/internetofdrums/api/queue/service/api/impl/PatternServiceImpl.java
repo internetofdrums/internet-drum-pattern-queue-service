@@ -1,24 +1,24 @@
 package com.internetofdrums.api.queue.service.api.impl;
 
 import com.internetofdrums.api.queue.service.api.DetailedDrumPattern;
+import com.internetofdrums.api.queue.service.api.DistinctBlockingQueue;
 import com.internetofdrums.api.queue.service.api.ListedDrumPattern;
 import com.internetofdrums.api.queue.service.api.NewDrumPattern;
 import com.internetofdrums.api.queue.service.api.PatternService;
+import com.internetofdrums.api.queue.service.api.QueueException;
 import com.internetofdrums.api.queue.service.api.impl.entity.DetailedDrumPatternEntity;
 import com.internetofdrums.api.queue.service.api.impl.entity.ListedDrumPatternEntity;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 
 public class PatternServiceImpl implements PatternService {
 
     private static final int MAXIMUM_NUMBER_OF_PATTERNS_IN_QUEUE = 100;
 
-    private final BlockingQueue<DetailedDrumPatternEntity> queue = new ArrayBlockingQueue<>(MAXIMUM_NUMBER_OF_PATTERNS_IN_QUEUE);
+    private final DistinctBlockingQueue<DetailedDrumPatternEntity> queue = new FairDistinctBlockingQueueImpl<>(MAXIMUM_NUMBER_OF_PATTERNS_IN_QUEUE);
 
     @Override
     public List<ListedDrumPattern> listQueue() {
@@ -28,10 +28,8 @@ public class PatternServiceImpl implements PatternService {
     }
 
     @Override
-    public boolean offerToQueue(NewDrumPattern newDrumPattern) {
-        // @todo Indicate if drum pattern already exists in queue
-
-        return queue.offer(DetailedDrumPatternEntity.valueOf(newDrumPattern));
+    public boolean offerToQueue(NewDrumPattern newDrumPattern) throws QueueException {
+        return queue.offerUnique(DetailedDrumPatternEntity.valueOf(newDrumPattern));
     }
 
     @Override

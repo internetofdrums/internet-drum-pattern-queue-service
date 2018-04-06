@@ -19,7 +19,7 @@ public interface PatternService extends Service {
 
     List<ListedDrumPattern> listQueue();
 
-    boolean offerToQueue(NewDrumPattern newDrumPattern);
+    boolean offerToQueue(NewDrumPattern newDrumPattern) throws QueueException;
 
     Optional<DetailedDrumPattern> getHeadOfQueue();
 
