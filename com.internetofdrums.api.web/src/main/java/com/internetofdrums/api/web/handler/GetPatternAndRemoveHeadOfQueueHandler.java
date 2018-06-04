@@ -1,8 +1,6 @@
 package com.internetofdrums.api.web.handler;
 
-import com.internetofdrums.api.queue.service.api.DetailedDrumPattern;
 import com.internetofdrums.api.queue.service.api.PatternService;
-import com.internetofdrums.api.web.view.DetailedDrumPatternView;
 import com.internetofdrums.api.web.view.ErrorView;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.Json;
