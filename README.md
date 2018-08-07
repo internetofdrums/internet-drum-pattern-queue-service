@@ -22,10 +22,10 @@ You can build the service locally.
 
 To build the service locally, you will need:
 
-- A [Java Development Kit (JDK)][4], version 1.9 or newer.
+- A [Java Development Kit (JDK)][4], version 10 or newer.
 - [Apache Maven][5] itself, version 3.5.0 or newer.
 
-Maven needs to use a Java version of 9 or higher. You can check which one it 
+Maven needs to use a Java version of 10 or higher. You can check which one it 
 uses by running `mvn -v`.
 
 ### Building

@@ -1,7 +1,7 @@
 language: java
 sudo: required
 jdk:
-  - oraclejdk9
+  - oraclejdk10
 services:
   - docker
 before_install:
