@@ -8,7 +8,7 @@ before_install:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 install:
   - mvn verify
+  - docker build -t internetofdrums/internet-drum-pattern-queue-service .
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  - docker build -t internetofdrums/internet-drum-pattern-queue-service .
   - docker push internetofdrums/internet-drum-pattern-queue-service
