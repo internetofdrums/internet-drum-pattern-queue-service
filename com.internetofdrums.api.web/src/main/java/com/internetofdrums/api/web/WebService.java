@@ -18,26 +18,35 @@ import io.vertx.ext.web.handler.CorsHandler;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
-public class WebService {
+class WebService {
 
     private static final String API_VERSION = "/1.0";
     private static final Vertx vertx = Vertx.vertx();
     private static final Router router = Router.router(vertx);
     private static final Router subRouter = Router.router(vertx);
 
+    private static final Logger LOGGER = Logger.getLogger(WebService.class.getName());
+
     private WebService() {
     }
 
-    public static void start(int port, HealthService healthService, PatternService patternService) {
+    static void start(HealthService healthService, PatternService patternService) {
+        LOGGER.fine("Starting web service...");
+
         configureCrossOriginResourceSharing();
         configureRouting(healthService, patternService);
         configureResourceNotFoundHandling();
         configureFailureHandling();
-        startServer(port);
+        startServer();
+
+        LOGGER.fine("Web service started.");
     }
 
     private static void configureCrossOriginResourceSharing() {
+        LOGGER.fine("Configuring cross origin resource sharing...");
+        
         Set<String> allowedHeaders = new HashSet<>();
         allowedHeaders.add("x-requested-with");
         allowedHeaders.add("Access-Control-Allow-Origin");
@@ -49,9 +58,13 @@ public class WebService {
                 .route()
                 .handler(CorsHandler.create("*")
                         .allowedHeaders(allowedHeaders));
+
+        LOGGER.fine("Cross origin resource sharing configured.");
     }
 
     private static void configureRouting(HealthService healthService, PatternService patternService) {
+        LOGGER.fine("Configuring routing...");
+        
         subRouter
                 .route()
                 .handler(BodyHandler.create());
@@ -83,25 +96,39 @@ public class WebService {
         subRouter
                 .delete(PatternService.GET_PATTERN_AND_REMOVE_HEAD_OF_QUEUE_PATH)
                 .handler(GetPatternAndRemoveHeadOfQueueHandler.forService(patternService));
+
+        LOGGER.fine("Routing configured.");
     }
 
     private static void configureResourceNotFoundHandling() {
+        LOGGER.fine("Configuring resource not found handling...");
+        
         router
                 .route()
                 .last()
                 .handler(new ResourceNotFoundHandler());
+
+        LOGGER.fine("Resource not found handling configured.");
     }
 
     private static void configureFailureHandling() {
+        LOGGER.fine("Configuring failure handling...");
+        
         router
                 .route()
                 .failureHandler(new FailureHandler());
+
+        LOGGER.fine("Failure handling configured.");
     }
 
-    private static void startServer(int port) {
+    private static void startServer() {
+        LOGGER.fine("Starting server...");
+        
         vertx
                 .createHttpServer()
                 .requestHandler(router.mountSubRouter(API_VERSION, subRouter)::accept)
-                .listen(port);
+                .listen(8080);
+
+        LOGGER.fine("Server started.");
     }
 }

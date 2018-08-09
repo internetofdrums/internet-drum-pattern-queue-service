@@ -7,8 +7,11 @@ import io.vertx.core.json.Json;
 import io.vertx.ext.web.RoutingContext;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 public class GetPatternAndRemoveHeadOfQueueHandler extends HandlerForService<PatternService> {
+
+    private static final Logger LOGGER = Logger.getLogger(GetPatternAndRemoveHeadOfQueueHandler.class.getName());
 
     public static GetPatternAndRemoveHeadOfQueueHandler forService(PatternService service) {
         return new GetPatternAndRemoveHeadOfQueueHandler(service);
@@ -16,15 +19,21 @@ public class GetPatternAndRemoveHeadOfQueueHandler extends HandlerForService<Pat
 
     private GetPatternAndRemoveHeadOfQueueHandler(PatternService service) {
         super(service);
+
+        LOGGER.fine("Created get pattern and remove head of queue handler.");
     }
 
     @Override
     public void handle(RoutingContext routingContext) {
+        LOGGER.fine("Handling get pattern and remove head of queue...");
+        
         HttpServerResponse response = routingContext.response();
 
         Optional<String> headOfQueuePattern = service.getPatternAndRemoveHeadOfQueue();
 
         if (!headOfQueuePattern.isPresent()) {
+            LOGGER.info("Queue is currently empty.");
+            
             response
                     .setStatusCode(404)
                     .putHeader("content-type", "application/json; charset=utf-8")
@@ -33,9 +42,13 @@ public class GetPatternAndRemoveHeadOfQueueHandler extends HandlerForService<Pat
             return;
         }
 
+        LOGGER.fine("Got pattern and removed head of queue.");
+
         response
                 .setStatusCode(200)
                 .putHeader("content-type", "text/plain")
                 .end(headOfQueuePattern.get());
+
+        LOGGER.fine("Get pattern and remove head of queue handled.");
     }
 }
