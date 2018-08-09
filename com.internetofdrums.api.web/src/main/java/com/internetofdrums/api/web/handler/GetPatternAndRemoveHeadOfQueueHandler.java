@@ -26,14 +26,14 @@ public class GetPatternAndRemoveHeadOfQueueHandler extends HandlerForService<Pat
     @Override
     public void handle(RoutingContext routingContext) {
         LOGGER.fine("Handling get pattern and remove head of queue...");
-        
+
         HttpServerResponse response = routingContext.response();
 
         Optional<String> headOfQueuePattern = service.getPatternAndRemoveHeadOfQueue();
 
         if (!headOfQueuePattern.isPresent()) {
             LOGGER.info("Queue is currently empty.");
-            
+
             response
                     .setStatusCode(404)
                     .putHeader("content-type", "application/json; charset=utf-8")

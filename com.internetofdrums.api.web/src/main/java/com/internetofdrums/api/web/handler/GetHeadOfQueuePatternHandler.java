@@ -26,14 +26,14 @@ public class GetHeadOfQueuePatternHandler extends HandlerForService<PatternServi
     @Override
     public void handle(RoutingContext routingContext) {
         LOGGER.fine("Handling get head of queue pattern...");
-        
+
         HttpServerResponse response = routingContext.response();
 
         Optional<String> headOfQueuePattern = service.getHeadOfQueuePattern();
 
         if (!headOfQueuePattern.isPresent()) {
             LOGGER.info("Queue is currently empty.");
-            
+
             response
                     .setStatusCode(404)
                     .putHeader("content-type", "application/json; charset=utf-8")

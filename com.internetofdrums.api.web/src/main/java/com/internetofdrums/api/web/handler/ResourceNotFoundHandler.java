@@ -15,7 +15,7 @@ public class ResourceNotFoundHandler implements Handler<RoutingContext> {
     @Override
     public void handle(RoutingContext routingContext) {
         LOGGER.fine("Handling resource not found...");
-        
+
         HttpServerResponse response = routingContext.response();
 
         response

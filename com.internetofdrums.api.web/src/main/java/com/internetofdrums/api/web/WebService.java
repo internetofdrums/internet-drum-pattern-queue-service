@@ -46,7 +46,7 @@ class WebService {
 
     private static void configureCrossOriginResourceSharing() {
         LOGGER.fine("Configuring cross origin resource sharing...");
-        
+
         Set<String> allowedHeaders = new HashSet<>();
         allowedHeaders.add("x-requested-with");
         allowedHeaders.add("Access-Control-Allow-Origin");
@@ -64,7 +64,7 @@ class WebService {
 
     private static void configureRouting(HealthService healthService, PatternService patternService) {
         LOGGER.fine("Configuring routing...");
-        
+
         subRouter
                 .route()
                 .handler(BodyHandler.create());
@@ -102,7 +102,7 @@ class WebService {
 
     private static void configureResourceNotFoundHandling() {
         LOGGER.fine("Configuring resource not found handling...");
-        
+
         router
                 .route()
                 .last()
@@ -113,7 +113,7 @@ class WebService {
 
     private static void configureFailureHandling() {
         LOGGER.fine("Configuring failure handling...");
-        
+
         router
                 .route()
                 .failureHandler(new FailureHandler());
@@ -123,7 +123,7 @@ class WebService {
 
     private static void startServer() {
         LOGGER.fine("Starting server...");
-        
+
         vertx
                 .createHttpServer()
                 .requestHandler(router.mountSubRouter(API_VERSION, subRouter)::accept)
