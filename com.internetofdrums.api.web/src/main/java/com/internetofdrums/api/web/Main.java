@@ -2,10 +2,9 @@ package com.internetofdrums.api.web;
 
 import com.internetofdrums.api.queue.service.api.HealthService;
 import com.internetofdrums.api.queue.service.api.PatternService;
+import com.internetofdrums.api.web.logging.LogHandler;
 
 import java.util.ServiceLoader;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,17 +34,8 @@ public class Main {
     private static void configureLogger() {
         Logger logger = Logger.getLogger("com.internetofdrums");
 
-        logger.addHandler(createLogHandler());
+        logger.addHandler(new LogHandler());
         logger.setLevel(Level.ALL);
         logger.setUseParentHandlers(false);
-    }
-
-    private static Handler createLogHandler() {
-        Handler logHandler = new ConsoleHandler();
-
-        logHandler.setFormatter(new LogFormatter());
-        logHandler.setLevel(Level.ALL);
-
-        return logHandler;
     }
 }

@@ -1,4 +1,4 @@
-package com.internetofdrums.api.web;
+package com.internetofdrums.api.web.logging;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
