@@ -1,4 +1,4 @@
-FROM openjdk:10-slim
+FROM openjdk:10-jre-slim
 RUN apt-get update  
 RUN apt-get install -y maven
 COPY . /usr/src/app
