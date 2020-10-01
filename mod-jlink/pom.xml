@@ -10,11 +10,17 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>web</artifactId>
+    <artifactId>mod-jlink</artifactId>
 
-    <name>Internet Drum Pattern Queue Service API - Web</name>
+    <packaging>jlink</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>com.internetofdrums.api</groupId>
+            <artifactId>queue.service.api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>com.internetofdrums.api</groupId>
             <artifactId>queue.service.api.impl</artifactId>
@@ -22,9 +28,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.6-SNAPSHOT</version>
+            <groupId>com.internetofdrums.api</groupId>
+            <artifactId>web</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-cd com.internetofdrums.api.web
-mvn exec:exec
+mod-jlink/target/maven-jlink/bin/java -m com.internetofdrums.api.web/com.internetofdrums.api.web.Main

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class PatternServiceImpl implements PatternService {
 
-    private static final int MAXIMUM_NUMBER_OF_PATTERNS_IN_QUEUE = 100;
+    private static final int MAXIMUM_NUMBER_OF_PATTERNS_IN_QUEUE = 2;
 
     private final DistinctBlockingQueue<DetailedDrumPatternEntity> queue = new FairDistinctBlockingQueueImpl<>(MAXIMUM_NUMBER_OF_PATTERNS_IN_QUEUE);
 

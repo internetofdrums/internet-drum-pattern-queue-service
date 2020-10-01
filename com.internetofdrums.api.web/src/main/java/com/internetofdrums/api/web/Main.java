@@ -1,5 +1,6 @@
 package com.internetofdrums.api.web;
 
+import com.google.gson.Gson;
 import com.internetofdrums.api.queue.service.api.HealthService;
 import com.internetofdrums.api.queue.service.api.PatternService;
 import com.internetofdrums.api.web.logging.LogHandler;
@@ -11,6 +12,8 @@ import java.util.logging.Logger;
 public class Main {
 
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+    
+    public static final Gson GSON = new Gson();
 
     public static void main(String[] args) {
         configureLogger();

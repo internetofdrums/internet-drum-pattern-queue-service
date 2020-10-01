@@ -4,7 +4,7 @@ import com.internetofdrums.api.queue.service.api.DetailedDrumPattern;
 
 import java.util.UUID;
 
-public class DetailedDrumPatternView implements DetailedDrumPattern {
+public class DetailedDrumPatternView extends View implements DetailedDrumPattern {
 
     private final UUID id;
     private final String name;

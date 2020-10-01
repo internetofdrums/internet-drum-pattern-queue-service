@@ -2,10 +2,10 @@ package com.internetofdrums.api.web.handler;
 
 import com.internetofdrums.api.queue.service.api.PatternService;
 import com.internetofdrums.api.web.view.ListedDrumPatternView;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.Json;
-import io.vertx.ext.web.RoutingContext;
+import com.sun.net.httpserver.HttpExchange;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -25,20 +25,26 @@ public class ListQueueHandler extends HandlerForService<PatternService> {
     }
 
     @Override
-    public void handle(RoutingContext routingContext) {
+    public void handle(HttpExchange httpExchange) throws IOException {
         LOGGER.fine("Handling list queue...");
 
-        HttpServerResponse response = routingContext.response();
+        OutputStream outputStream = httpExchange.getResponseBody();
 
         List<ListedDrumPatternView> list = service.listQueue()
                 .stream()
                 .map(ListedDrumPatternView::new)
                 .collect(Collectors.toList());
 
-        response
-                .setStatusCode(200)
-                .putHeader("content-type", "application/json; charset=utf-8")
-                .end(Json.encode(list));
+        String response = list.toString();
+
+        httpExchange
+                .getResponseHeaders()
+                .add("content-type", "application/json; charset=utf-8");
+
+        httpExchange.sendResponseHeaders(200, response.length());
+
+        outputStream.write(response.getBytes());
+        outputStream.close();
 
         LOGGER.fine("List queue handled.");
     }

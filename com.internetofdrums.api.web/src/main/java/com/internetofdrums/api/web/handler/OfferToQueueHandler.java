@@ -1,16 +1,9 @@
 package com.internetofdrums.api.web.handler;
 
-import com.internetofdrums.api.queue.service.api.NewDrumPattern;
 import com.internetofdrums.api.queue.service.api.PatternService;
-import com.internetofdrums.api.queue.service.api.QueueException;
-import com.internetofdrums.api.web.view.ErrorView;
-import com.internetofdrums.api.web.view.NewDrumPatternView;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.DecodeException;
-import io.vertx.core.json.Json;
-import io.vertx.ext.web.RoutingContext;
+import com.sun.net.httpserver.HttpExchange;
 
-import java.util.logging.Level;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class OfferToQueueHandler extends HandlerForService<PatternService> {
@@ -28,60 +21,60 @@ public class OfferToQueueHandler extends HandlerForService<PatternService> {
     }
 
     @Override
-    public void handle(RoutingContext routingContext) {
+    public void handle(HttpExchange httpExchange) throws IOException {
         LOGGER.fine("Handling offer to queue...");
 
-        HttpServerResponse response = routingContext.response();
-        NewDrumPattern newDrumPattern;
-
-        LOGGER.fine("Decoding drum pattern...");
-
-        try {
-            newDrumPattern = Json.decodeValue(routingContext.getBodyAsString(), NewDrumPatternView.class);
-        } catch (DecodeException e) {
-            LOGGER.log(Level.SEVERE, "Exception occurred while decoding drum pattern.", e);
-
-            response
-                    .setStatusCode(400)
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end(Json.encode(new ErrorView("The pattern could not be correctly parsed.")));
-
-            return;
-        }
-
-        boolean succeeded;
-
-        LOGGER.fine("Offering drum pattern to queue...");
-
-        try {
-            succeeded = service.offerToQueue(newDrumPattern);
-        } catch (QueueException e) {
-            LOGGER.info("Pattern is already present in queue...");
-
-            response
-                    .setStatusCode(422)
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end(Json.encode(new ErrorView("The pattern is already present in the queue.")));
-
-            return;
-        }
-
-        if (!succeeded) {
-            LOGGER.info("Pattern could not be added to queue...");
-
-            response
-                    .setStatusCode(202)
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end(Json.encode(new ErrorView("The pattern could not be added to the queue, because the queue is currently full.")));
-
-            return;
-        }
-
-        LOGGER.fine("Pattern successfully added to queue...");
-
-        response
-                .setStatusCode(201)
-                .end();
+//        HttpServerResponse response = routingContext.response();
+//        NewDrumPattern newDrumPattern;
+//
+//        LOGGER.fine("Decoding drum pattern...");
+//
+//        try {
+//            newDrumPattern = Json.decodeValue(routingContext.getBodyAsString(), NewDrumPatternView.class);
+//        } catch (DecodeException e) {
+//            LOGGER.log(Level.SEVERE, "Exception occurred while decoding drum pattern.", e);
+//
+//            response
+//                    .setStatusCode(400)
+//                    .putHeader("content-type", "application/json; charset=utf-8")
+//                    .end(Json.encode(new ErrorView("The pattern could not be correctly parsed.")));
+//
+//            return;
+//        }
+//
+//        boolean succeeded;
+//
+//        LOGGER.fine("Offering drum pattern to queue...");
+//
+//        try {
+//            succeeded = service.offerToQueue(newDrumPattern);
+//        } catch (QueueException e) {
+//            LOGGER.info("Pattern is already present in queue...");
+//
+//            response
+//                    .setStatusCode(422)
+//                    .putHeader("content-type", "application/json; charset=utf-8")
+//                    .end(Json.encode(new ErrorView("The pattern is already present in the queue.")));
+//
+//            return;
+//        }
+//
+//        if (!succeeded) {
+//            LOGGER.info("Pattern could not be added to queue...");
+//
+//            response
+//                    .setStatusCode(202)
+//                    .putHeader("content-type", "application/json; charset=utf-8")
+//                    .end(Json.encode(new ErrorView("The pattern could not be added to the queue, because the queue is currently full.")));
+//
+//            return;
+//        }
+//
+//        LOGGER.fine("Pattern successfully added to queue...");
+//
+//        response
+//                .setStatusCode(201)
+//                .end();
 
         LOGGER.fine("Offer to queue handled.");
     }

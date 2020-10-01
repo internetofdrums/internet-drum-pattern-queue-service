@@ -1,10 +1,9 @@
 package com.internetofdrums.api.web.handler;
 
 import com.internetofdrums.api.queue.service.api.Service;
-import io.vertx.core.Handler;
-import io.vertx.ext.web.RoutingContext;
+import com.sun.net.httpserver.HttpHandler;
 
-abstract class HandlerForService<T extends Service> implements Handler<RoutingContext> {
+abstract class HandlerForService<T extends Service> implements HttpHandler {
 
     final T service;
 

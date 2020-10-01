@@ -1,27 +1,25 @@
 package com.internetofdrums.api.web.handler;
 
-import com.internetofdrums.api.web.view.ErrorView;
-import io.vertx.core.Handler;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.Json;
-import io.vertx.ext.web.RoutingContext;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
-public class FailureHandler implements Handler<RoutingContext> {
+public class FailureHandler implements HttpHandler {
 
     private static final Logger LOGGER = Logger.getLogger(FailureHandler.class.getName());
 
     @Override
-    public void handle(RoutingContext routingContext) {
+    public void handle(HttpExchange httpExchange) throws IOException {
         LOGGER.fine("Handling failure...");
 
-        HttpServerResponse response = routingContext.response();
-
-        response
-                .setStatusCode(500)
-                .putHeader("content-type", "application/json; charset=utf-8")
-                .end(Json.encode(new ErrorView("An internal server error occured.")));
+//        HttpServerResponse response = routingContext.response();
+//
+//        response
+//                .setStatusCode(500)
+//                .putHeader("content-type", "application/json; charset=utf-8")
+//                .end(Json.encode(new ErrorView("An internal server error occured.")));
 
         LOGGER.fine("Failure handled.");
     }

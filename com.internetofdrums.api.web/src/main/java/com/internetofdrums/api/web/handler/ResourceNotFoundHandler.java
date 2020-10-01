@@ -1,27 +1,33 @@
 package com.internetofdrums.api.web.handler;
 
 import com.internetofdrums.api.web.view.ErrorView;
-import io.vertx.core.Handler;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.Json;
-import io.vertx.ext.web.RoutingContext;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.logging.Logger;
 
-public class ResourceNotFoundHandler implements Handler<RoutingContext> {
+public class ResourceNotFoundHandler implements HttpHandler {
 
     private static final Logger LOGGER = Logger.getLogger(ResourceNotFoundHandler.class.getName());
 
     @Override
-    public void handle(RoutingContext routingContext) {
+    public void handle(HttpExchange httpExchange) throws IOException {
         LOGGER.fine("Handling resource not found...");
 
-        HttpServerResponse response = routingContext.response();
+        String response = new ErrorView("The resource could not be found.").toJson();
 
-        response
-                .setStatusCode(404)
-                .putHeader("content-type", "application/json; charset=utf-8")
-                .end(Json.encode(new ErrorView("The resource could not be found.")));
+        httpExchange
+                .getResponseHeaders()
+                .add("content-type", "application/json; charset=utf-8");
+
+        httpExchange.sendResponseHeaders(404, response.length());
+
+        OutputStream outputStream = httpExchange.getResponseBody();
+
+        outputStream.write(response.getBytes());
+        outputStream.close();
 
         LOGGER.fine("Resource not found handled.");
     }

@@ -1,9 +1,9 @@
 package com.internetofdrums.api.web.handler;
 
 import com.internetofdrums.api.queue.service.api.HealthService;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.web.RoutingContext;
+import com.sun.net.httpserver.HttpExchange;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,10 +22,9 @@ public class GetHealthHandler extends HandlerForService<HealthService> {
     }
 
     @Override
-    public void handle(RoutingContext routingContext) {
+    public void handle(HttpExchange httpExchange) throws IOException {
         LOGGER.fine("Handling get health...");
 
-        HttpServerResponse response = routingContext.response();
         boolean serviceIsHealthy = true;
 
         try {
@@ -37,12 +36,11 @@ public class GetHealthHandler extends HandlerForService<HealthService> {
         }
 
         if (!serviceIsHealthy) {
-            response.setStatusCode(500).end();
-
+            httpExchange.sendResponseHeaders(500, -1);
             return;
         }
 
-        response.setStatusCode(200).end();
+        httpExchange.sendResponseHeaders(200, -1);
 
         LOGGER.fine("Get health handled.");
     }

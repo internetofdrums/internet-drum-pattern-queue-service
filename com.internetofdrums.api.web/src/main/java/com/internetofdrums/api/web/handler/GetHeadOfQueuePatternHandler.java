@@ -1,12 +1,9 @@
 package com.internetofdrums.api.web.handler;
 
 import com.internetofdrums.api.queue.service.api.PatternService;
-import com.internetofdrums.api.web.view.ErrorView;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.Json;
-import io.vertx.ext.web.RoutingContext;
+import com.sun.net.httpserver.HttpExchange;
 
-import java.util.Optional;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class GetHeadOfQueuePatternHandler extends HandlerForService<PatternService> {
@@ -24,28 +21,28 @@ public class GetHeadOfQueuePatternHandler extends HandlerForService<PatternServi
     }
 
     @Override
-    public void handle(RoutingContext routingContext) {
+    public void handle(HttpExchange httpExchange) throws IOException {
         LOGGER.fine("Handling get head of queue pattern...");
 
-        HttpServerResponse response = routingContext.response();
-
-        Optional<String> headOfQueuePattern = service.getHeadOfQueuePattern();
-
-        if (!headOfQueuePattern.isPresent()) {
-            LOGGER.info("Queue is currently empty.");
-
-            response
-                    .setStatusCode(404)
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end(Json.encode(new ErrorView("The queue is currently empty.")));
-
-            return;
-        }
-
-        response
-                .setStatusCode(200)
-                .putHeader("content-type", "text/plain")
-                .end(headOfQueuePattern.get());
+//        HttpServerResponse response = routingContext.response();
+//
+//        Optional<String> headOfQueuePattern = service.getHeadOfQueuePattern();
+//
+//        if (!headOfQueuePattern.isPresent()) {
+//            LOGGER.info("Queue is currently empty.");
+//
+//            response
+//                    .setStatusCode(404)
+//                    .putHeader("content-type", "application/json; charset=utf-8")
+//                    .end(Json.encode(new ErrorView("The queue is currently empty.")));
+//
+//            return;
+//        }
+//
+//        response
+//                .setStatusCode(200)
+//                .putHeader("content-type", "text/plain")
+//                .end(headOfQueuePattern.get());
 
         LOGGER.fine("Get head of queue pattern handled.");
     }

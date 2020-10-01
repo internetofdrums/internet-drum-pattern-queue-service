@@ -4,10 +4,10 @@ import com.internetofdrums.api.queue.service.api.DetailedDrumPattern;
 import com.internetofdrums.api.queue.service.api.PatternService;
 import com.internetofdrums.api.web.view.DetailedDrumPatternView;
 import com.internetofdrums.api.web.view.ErrorView;
-import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.Json;
-import io.vertx.ext.web.RoutingContext;
+import com.sun.net.httpserver.HttpExchange;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -26,30 +26,39 @@ public class GetHeadOfQueueHandler extends HandlerForService<PatternService> {
     }
 
     @Override
-    public void handle(RoutingContext routingContext) {
+    public void handle(HttpExchange httpExchange) throws IOException {
         LOGGER.fine("Handling get head of queue...");
 
-        HttpServerResponse response = routingContext.response();
+        OutputStream outputStream = httpExchange.getResponseBody();
+
+        String response;
+
+        httpExchange
+                .getResponseHeaders()
+                .add("content-type", "application/json; charset=utf-8");
 
         Optional<DetailedDrumPattern> detailedDrumPattern = service.getHeadOfQueue();
 
         if (!detailedDrumPattern.isPresent()) {
             LOGGER.info("Queue is currently empty.");
 
-            response
-                    .setStatusCode(404)
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end(Json.encode(new ErrorView("The queue is currently empty.")));
+            response = new ErrorView("The queue is currently empty.").toJson();
 
+            httpExchange.sendResponseHeaders(404, response.length());
+
+            outputStream.write(response.getBytes());
+            outputStream.close();
             return;
         }
 
         LOGGER.fine("Got head of queue.");
 
-        response
-                .setStatusCode(200)
-                .putHeader("content-type", "application/json; charset=utf-8")
-                .end(Json.encode(new DetailedDrumPatternView(detailedDrumPattern.get())));
+        response = new DetailedDrumPatternView(detailedDrumPattern.get()).toJson();
+
+        httpExchange.sendResponseHeaders(200, response.length());
+
+        outputStream.write(response.getBytes());
+        outputStream.close();
 
         LOGGER.fine("Get head of queue handled.");
     }
